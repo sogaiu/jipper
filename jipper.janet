@@ -2075,3 +2075,80 @@
 
   )
 
+# ws == whitespace
+(defn right-skip-ws
+  ``
+  Try to move right from `zloc`, skipping over whitespace
+  nodes.
+
+  When at least one right move succeeds, return the z-location
+  for the last successful right move destination.  Otherwise,
+  return nil.
+  ``
+  [zloc]
+  (right-until zloc
+               |(match (node $)
+                  [:whitespace]
+                  false
+                  #
+                  true)))
+
+(comment
+
+  (-> (par (string "( # hi there\n"
+                   "+ 1 2)"))
+      zip-down
+      down
+      right-skip-ws
+      node)
+  # =>
+  [:comment @{:bc 3 :bl 1 :ec 13 :el 1} "# hi there"]
+
+  (-> (par "(:a)")
+      zip-down
+      down
+      right-skip-ws)
+  # =>
+  nil
+
+  )
+
+(defn left-skip-ws
+  ``
+  Try to move left from `zloc`, skipping over whitespace
+  nodes.
+
+  When at least one left move succeeds, return the z-location
+  for the last successful left move destination.  Otherwise,
+  return nil.
+  ``
+  [zloc]
+  (left-until zloc
+              |(match (node $)
+                 [:whitespace]
+                 false
+                 #
+                 true)))
+
+(comment
+
+  (-> (par (string "(# hi there\n"
+                   "+ 1 2)"))
+      zip-down
+      down
+      right
+      right
+      left-skip-ws
+      node)
+  # =>
+  [:comment @{:bc 2 :bl 1 :ec 12 :el 1} "# hi there"]
+
+  (-> (par "(:a)")
+      zip-down
+      down
+      left-skip-ws)
+  # =>
+  nil
+
+  )
+
