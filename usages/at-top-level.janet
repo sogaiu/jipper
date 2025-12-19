@@ -27,6 +27,48 @@
   # =>
   true
 
+  # at top-level syntactically
+  (length (j/path a-zloc))
+  # =>
+  1
+
+  (def upscoped
+    "(upscope (def a 1))")
+
+  (def u-zloc
+    (j/zip-down (j/par upscoped)))
+
+  (j/node u-zloc)
+  # =>
+  [:tuple @{:bc 1 :bl 1 :ec 20 :el 1}
+   [:symbol @{:bc 2 :bl 1 :ec 9 :el 1} "upscope"]
+   [:whitespace @{:bc 9 :bl 1 :ec 10 :el 1} " "]
+   [:tuple @{:bc 10 :bl 1 :ec 19 :el 1}
+    [:symbol @{:bc 11 :bl 1 :ec 14 :el 1} "def"]
+    [:whitespace @{:bc 14 :bl 1 :ec 15 :el 1} " "]
+    [:symbol @{:bc 15 :bl 1 :ec 16 :el 1} "a"]
+    [:whitespace @{:bc 16 :bl 1 :ec 17 :el 1} " "]
+    [:number @{:bc 17 :bl 1 :ec 18 :el 1} "1"]]]
+
+  (def def-zloc
+    (-> u-zloc
+        j/down
+        j/right-skip-wsc))
+
+  (j/node def-zloc)
+  # =>
+  [:tuple @{:bc 10 :bl 1 :ec 19 :el 1}
+   [:symbol @{:bc 11 :bl 1 :ec 14 :el 1} "def"]
+   [:whitespace @{:bc 14 :bl 1 :ec 15 :el 1} " "]
+   [:symbol @{:bc 15 :bl 1 :ec 16 :el 1} "a"]
+   [:whitespace @{:bc 16 :bl 1 :ec 17 :el 1} " "]
+   [:number @{:bc 17 :bl 1 :ec 18 :el 1} "1"]]
+
+  # not at top-level syntactically
+  (length (j/path def-zloc))
+  # =>
+  2
+
   )
 
 # checking if something is effectively a top-level tuple
