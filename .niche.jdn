@@ -1,6 +1,6 @@
 {
  # describes what to test - file and dir paths
- :includes ["jipper.janet" "usages"]
+ :includes ["src" "jipper.janet" "usages"]
  # describes what to skip - file paths only
  :excludes []
 }

@@ -7,6 +7,14 @@
    :url "https://github.com/sogaiu/some-bundle-bits"
    :tag "7ddb7ec53a6eb8c81b0c22bb7710a01fff57a759"
    :paths [["sbb.janet" "bundle/"]]}
+  {:name "janet-peg"
+   :url "https://github.com/sogaiu/janet-peg"
+   :tag "fa1f5968138071cdc9d31e334c4d95f6cb09d868"
+   :paths [["lib/location.janet" "src/"]]}
+  {:name "jell"
+   :url "https://github.com/sogaiu/jell"
+   :tag "5002ee1176b5e9c6249f02d092de2e0d2a792445"
+   :paths [["jell" "bin/"]]}
   {:name "niche"
    :url "https://github.com/sogaiu/niche"
    :tag "419933e4d6e27a6625bd3494aa71659ec8f36f25"
