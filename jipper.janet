@@ -1,5 +1,3 @@
-#! /usr/bin/env janet
-
 (comment import ./helpers :prefix "")
 # based on code by corasaurus-hex
 
@@ -664,7 +662,7 @@
   )
 
 
-(def version "2026-01-15_14-02-34")
+(def version "2026-01-24_08-32-48")
 
 # exports
 (def par l/par)

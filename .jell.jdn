@@ -1,3 +1,4 @@
 {:start-path "src/main.janet"
  :obj-path "obj"
- :out-path "jipper.janet"}
+ :out-path "jipper.janet"
+ :add-shebang false}
