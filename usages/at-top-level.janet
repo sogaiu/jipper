@@ -1,6 +1,26 @@
 (import ../jipper :as j)
 
-# XXX: using `path` and `leftmost` might be better?
+(comment
+
+  (def a-def "(def a 1)")
+
+  (def a-zloc (j/zip-down (j/par a-def)))
+
+  (j/node a-zloc)
+  # =>
+  [:tuple @{:bc 1 :bl 1 :ec 10 :el 1}
+   [:symbol @{:bc 2 :bl 1 :ec 5 :el 1} "def"]
+   [:whitespace @{:bc 5 :bl 1 :ec 6 :el 1} " "]
+   [:symbol @{:bc 6 :bl 1 :ec 7 :el 1} "a"]
+   [:whitespace @{:bc 7 :bl 1 :ec 8 :el 1} " "]
+   [:number @{:bc 8 :bl 1 :ec 9 :el 1} "1"]]
+
+  # at top-level syntactically
+  (length (j/path a-zloc))
+  # =>
+  1
+
+  )
 
 # checking whether something is a top-level tuple
 (comment
