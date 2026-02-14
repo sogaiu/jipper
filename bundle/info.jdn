@@ -18,7 +18,11 @@
   {:name "niche"
    :url "https://github.com/sogaiu/niche"
    :tag "419933e4d6e27a6625bd3494aa71659ec8f36f25"
-   :paths [["niche.janet" "bin/"]]}]
+   :paths [["niche.janet" "bin/"]]}
+  {:name "spork"
+   :url "https://github.com/janet-lang/spork"
+   :tag "60110c3688c5687cc603159bcfa38d579f95a27d"
+   :paths [["spork/sh-dsl.janet" "bin/"]]}]
 
  :sources
  [{:items ["jipper.janet"]}]}
