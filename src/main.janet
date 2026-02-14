@@ -51,15 +51,14 @@
 
   )
 
-# ds - data structure
-(defn ds-zip
+(defn indexed-zip
   ``
-  Returns a zipper for nested data structures (tuple/array/table/struct),
-  given a root data structure.
+  Returns a zipper for nested indexed data structures (tuples
+  or arrays), given a root data structure.
   ``
-  [ds]
-  (zipper ds
-          |(or (dictionary? $) (indexed? $))
+  [indexed]
+  (zipper indexed
+          |(indexed? $)
           h/to-entries
           (fn [p xs] xs)))
 
@@ -69,7 +68,7 @@
     [:x [:y :z]])
 
   (def [the-node the-state]
-    (ds-zip a-node))
+    (indexed-zip a-node))
 
   the-node
   # =>
@@ -89,7 +88,7 @@
 
 (comment
 
-  (node (ds-zip [:a :b [:x :y]]))
+  (node (indexed-zip [:a :b [:x :y]]))
   # =>
   [:a :b [:x :y]]
 
@@ -104,7 +103,7 @@
 
   # merge is used to "remove" the prototype table of `st`
   (merge {}
-         (-> (ds-zip [:a [:b [:x :y]]])
+         (-> (indexed-zip [:a [:b [:x :y]]])
              state))
   # =>
   @{}
@@ -121,7 +120,7 @@
 
 (comment
 
-  (branch? (ds-zip [:a :b [:x :y]]))
+  (branch? (indexed-zip [:a :b [:x :y]]))
   # =>
   true
 
@@ -139,7 +138,7 @@
 
 (comment
 
-  (children (ds-zip [:a :b [:x :y]]))
+  (children (indexed-zip [:a :b [:x :y]]))
   # =>
   [:a :b [:x :y]]
 
@@ -156,7 +155,7 @@
 
   # merge is used to "remove" the prototype table of `st`
   (merge {}
-         (make-state (ds-zip [:a :b [:x :y]])))
+         (make-state (indexed-zip [:a :b [:x :y]])))
   # =>
   @{}
 
@@ -185,18 +184,18 @@
 
 (comment
 
-  (node (down (ds-zip [:a :b [:x :y]])))
+  (node (down (indexed-zip [:a :b [:x :y]])))
   # =>
   :a
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       branch?)
   # =>
   false
 
   (try
-    (-> (ds-zip [:a])
+    (-> (indexed-zip [:a])
         down
         children)
     ([e] e))
@@ -207,7 +206,7 @@
     #
     (merge {}
            (-> [:a [:b [:x :y]]]
-               ds-zip
+               indexed-zip
                down
                state))
     #
@@ -240,14 +239,14 @@
 
 (comment
 
-  (-> (ds-zip [:a :b])
+  (-> (indexed-zip [:a :b])
       down
       right
       node)
   # =>
   :b
 
-  (-> (ds-zip [:a])
+  (-> (indexed-zip [:a])
       down
       right)
   # =>
@@ -264,7 +263,7 @@
 
 (comment
 
-  (make-node (ds-zip [:a :b [:x :y]])
+  (make-node (indexed-zip [:a :b [:x :y]])
              [:a :b] [:x :y])
   # =>
   [:x :y]
@@ -298,7 +297,7 @@
 (comment
 
   (def m-zip
-    (ds-zip [:a :b [:x :y]]))
+    (indexed-zip [:a :b [:x :y]]))
 
   (deep=
     (-> m-zip
@@ -343,7 +342,7 @@
 (comment
 
   (def a-zip
-    (ds-zip [:a :b [:x :y]]))
+    (indexed-zip [:a :b [:x :y]]))
 
   (node a-zip)
   # =>
@@ -380,7 +379,7 @@
 (comment
 
   (def a-zip
-    (ds-zip [:a :b [:x]]))
+    (indexed-zip [:a :b [:x]]))
 
   (node (df-next a-zip))
   # =>
@@ -419,14 +418,14 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       (replace :w)
       root)
   # =>
   [:w :b [:x :y]]
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       right
       right
@@ -449,14 +448,14 @@
 
 (comment
 
-  (-> (ds-zip [1 2 [8 9]])
+  (-> (indexed-zip [1 2 [8 9]])
       down
       (edit inc)
       root)
   # =>
   [2 2 [8 9]]
 
-  (-> (ds-zip [1 2 [8 9]])
+  (-> (indexed-zip [1 2 [8 9]])
       down
       (edit inc)
       right
@@ -485,7 +484,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       (insert-child :c)
       root)
   # =>
@@ -506,7 +505,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       (append-child :c)
       root)
   # =>
@@ -537,7 +536,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       rightmost
       node)
@@ -585,7 +584,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       right
       remove
@@ -594,7 +593,7 @@
   :a
 
   (try
-    (remove (ds-zip [:a :b [:x :y]]))
+    (remove (indexed-zip [:a :b [:x :y]]))
     ([e] e))
   # =>
   "Called `remove` at root"
@@ -622,7 +621,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b :c])
+  (-> (indexed-zip [:a :b :c])
       down
       right
       right
@@ -631,7 +630,7 @@
   # =>
   :b
 
-  (-> (ds-zip [:a])
+  (-> (indexed-zip [:a])
       down
       left)
   # =>
@@ -659,7 +658,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       right
       df-prev
@@ -667,7 +666,7 @@
   # =>
   :a
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       right
       right
@@ -700,7 +699,7 @@
 (comment
 
   (def a-zip
-    (ds-zip [:a :b [:x :y]]))
+    (indexed-zip [:a :b [:x :y]]))
 
   (-> a-zip
       down
@@ -738,7 +737,7 @@
 (comment
 
   (def a-zip
-    (ds-zip [:a :b [:x :y]]))
+    (indexed-zip [:a :b [:x :y]]))
 
   (-> a-zip
       down
@@ -763,7 +762,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       rights)
   # =>
@@ -781,13 +780,13 @@
 
 (comment
 
-  (-> (ds-zip [:a :b])
+  (-> (indexed-zip [:a :b])
       down
       lefts)
   # =>
   []
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       right
       right
@@ -819,14 +818,14 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       leftmost
       node)
   # =>
   :a
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       rightmost
       leftmost
@@ -844,17 +843,17 @@
 
 (comment
 
-  (path (ds-zip [:a :b [:x :y]]))
+  (path (indexed-zip [:a :b [:x :y]]))
   # =>
   nil
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       path)
   # =>
   [[:a :b [:x :y]]]
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       right
       right
@@ -886,7 +885,7 @@
         [:symbol "+"] [:whitespace " "]
         [:number "1"] [:whitespace " "]
         [:number "2"]]]
-      ds-zip
+      indexed-zip
       down
       right
       down
@@ -925,7 +924,7 @@
         [:symbol "+"] [:whitespace " "]
         [:number "1"] [:whitespace " "]
         [:number "2"]]]
-      ds-zip
+      indexed-zip
       down
       right
       down
@@ -961,7 +960,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b :c])
+  (-> (indexed-zip [:a :b :c])
       down
       (search-from |(match (node $)
                       :b
@@ -970,7 +969,7 @@
   # =>
   :b
 
-  (-> (ds-zip [:a :b :c])
+  (-> (indexed-zip [:a :b :c])
       down
       (search-from |(match (node $)
                       :d
@@ -978,7 +977,7 @@
   # =>
   nil
 
-  (-> (ds-zip [:a :b :c])
+  (-> (indexed-zip [:a :b :c])
       down
       (search-from |(match (node $)
                       :a
@@ -1006,7 +1005,7 @@
 
 (comment
 
-  (-> (ds-zip [:b :a :b])
+  (-> (indexed-zip [:b :a :b])
       down
       (search-after |(match (node $)
                        :b
@@ -1016,7 +1015,7 @@
   # =>
   :a
 
-  (-> (ds-zip [:b :a :b])
+  (-> (indexed-zip [:b :a :b])
       down
       (search-after |(match (node $)
                        :d
@@ -1024,7 +1023,7 @@
   # =>
   nil
 
-  (-> (ds-zip [:a [:b :c [2 [3 :smile] 5]]])
+  (-> (indexed-zip [:a [:b :c [2 [3 :smile] 5]]])
       (search-after |(match (node $)
                        [_ :smile]
                        true))
@@ -1065,7 +1064,7 @@
 
 (comment
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       right
       right
@@ -1074,21 +1073,21 @@
   # =>
   [:a :b :x :y]
 
-  (-> (ds-zip [:a :b [:x :y]])
+  (-> (indexed-zip [:a :b [:x :y]])
       down
       unwrap
       root)
   # =>
   [:a :b [:x :y]]
 
-  (-> (ds-zip [[:a]])
+  (-> (indexed-zip [[:a]])
       down
       unwrap
       root)
   # =>
   [:a]
 
-  (-> (ds-zip [[:a :b] [:x :y]])
+  (-> (indexed-zip [[:a :b] [:x :y]])
       down
       down
       remove
@@ -1098,7 +1097,7 @@
   [:b [:x :y]]
 
   (try
-    (-> (ds-zip [:a :b [:x :y]])
+    (-> (indexed-zip [:a :b [:x :y]])
         unwrap)
     ([e] e))
   # =>
@@ -1165,7 +1164,7 @@
 (comment
 
   (def start-zloc
-    (-> (ds-zip [:a [:b] :c :x])
+    (-> (indexed-zip [:a [:b] :c :x])
         down
         right))
 
