@@ -662,7 +662,7 @@
   )
 
 
-(def version "2026-02-15_06-39-15")
+(def version "2026-02-15_06-39-42")
 
 # exports
 (def par l/par)
@@ -719,7 +719,7 @@
   ``
   [indexed]
   (zipper indexed
-          |(indexed? $)
+          indexed?
           h/to-entries
           (fn [p xs] xs)))
 

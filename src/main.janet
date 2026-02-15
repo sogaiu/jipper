@@ -58,7 +58,7 @@
   ``
   [indexed]
   (zipper indexed
-          |(indexed? $)
+          indexed?
           h/to-entries
           (fn [p xs] xs)))
 
