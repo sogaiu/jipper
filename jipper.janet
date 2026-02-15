@@ -662,7 +662,7 @@
   )
 
 
-(def version "2026-02-15_05-01-08")
+(def version "2026-02-15_06-38-02")
 
 # exports
 (def par l/par)
@@ -1766,6 +1766,30 @@
 
   )
 
+(defn eq?
+  ``
+  Compare two zlocs, `a-zloc` and `b-zloc`, for equality.
+  ``
+  [a-zloc b-zloc]
+  (deep= [(path a-zloc) (length (lefts a-zloc))]
+         [(path b-zloc) (length (lefts b-zloc))]))
+
+(comment
+
+  (def iz (indexed-zip [:a :b :c :b]))
+
+  (eq? (-> iz down right)
+       (-> iz down right right right))
+  # =>
+  false
+
+  (eq? (-> iz down right)
+       (-> iz down right right right left left))
+  # =>
+  true
+
+  )
+
 (defn wrap
   ``
   Replace nodes from `start-zloc` through `end-zloc` with a single
@@ -1786,9 +1810,7 @@
   (def kids @[])
   (var cur-zloc start-zloc)
   (while (and cur-zloc
-              # XXX: expensive?
-              (not (deep= (node cur-zloc)
-                          (node end-zloc)))) # left to right
+              (not (eq? cur-zloc end-zloc))) # left to right
     (array/push kids (node cur-zloc))
     (set cur-zloc (right cur-zloc)))
   (when (nil? cur-zloc)
