@@ -662,7 +662,7 @@
   )
 
 
-(def version "2026-02-14_14-53-18")
+(def version "2026-02-15_05-01-08")
 
 # exports
 (def par l/par)
@@ -1209,8 +1209,8 @@
 (defn remove
   ``
   Removes the node at `zloc`, returning the z-location that would have
-  preceded it in a depth-first walk.
-  Throws an error if called at the root z-location.
+  preceded it in a depth-first walk.  Throws an error if called at the
+  root z-location.
   ``
   [zloc]
   (let [[z-node st] zloc
