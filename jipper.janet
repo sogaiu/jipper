@@ -662,7 +662,7 @@
   )
 
 
-(def version "2026-02-15_06-38-02")
+(def version "2026-02-15_06-39-15")
 
 # exports
 (def par l/par)
@@ -1428,6 +1428,13 @@
       rights)
   # =>
   [:b [:x :y]]
+
+  (-> (indexed-zip [:a :b])
+      down
+      right
+      rights)
+  # =>
+  []
 
   )
 

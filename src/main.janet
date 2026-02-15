@@ -768,6 +768,13 @@
   # =>
   [:b [:x :y]]
 
+  (-> (indexed-zip [:a :b])
+      down
+      right
+      rights)
+  # =>
+  []
+
   )
 
 (defn lefts
