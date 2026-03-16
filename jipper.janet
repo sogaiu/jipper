@@ -662,7 +662,7 @@
   )
 
 
-(def version "2026-03-16_04-17-58")
+(def version "2026-03-16_05-49-06")
 
 # exports
 (def par l/par)
@@ -1778,8 +1778,8 @@
   Compare two zlocs, `a-zloc` and `b-zloc`, for equality.
   ``
   [a-zloc b-zloc]
-  (deep= [(path a-zloc) (length (lefts a-zloc))]
-         [(path b-zloc) (length (lefts b-zloc))]))
+  (and (= (length (lefts a-zloc)) (length (lefts b-zloc)))
+       (= (path a-zloc) (path b-zloc))))
 
 (comment
 

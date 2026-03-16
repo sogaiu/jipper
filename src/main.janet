@@ -1117,8 +1117,8 @@
   Compare two zlocs, `a-zloc` and `b-zloc`, for equality.
   ``
   [a-zloc b-zloc]
-  (deep= [(path a-zloc) (length (lefts a-zloc))]
-         [(path b-zloc) (length (lefts b-zloc))]))
+  (and (= (length (lefts a-zloc)) (length (lefts b-zloc)))
+       (= (path a-zloc) (path b-zloc))))
 
 (comment
 
