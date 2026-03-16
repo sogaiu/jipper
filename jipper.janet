@@ -662,7 +662,7 @@
   )
 
 
-(def version "2026-02-15_06-39-42")
+(def version "2026-03-16_04-17-58")
 
 # exports
 (def par l/par)
@@ -888,8 +888,8 @@
   [zloc]
   (let [[z-node st] zloc
         {:ls ls :rs rs} st
-        [r rest-rs rs] (h/first-rest-maybe-all rs)]
-    (when (and (not (empty? st)) rs)
+        [r rest-rs rs_] (h/first-rest-maybe-all rs)]
+    (when (and (not (empty? st)) rs_)
       [r
        (make-state zloc
                    (h/tuple-push ls z-node)

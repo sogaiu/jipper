@@ -227,8 +227,8 @@
   [zloc]
   (let [[z-node st] zloc
         {:ls ls :rs rs} st
-        [r rest-rs rs] (h/first-rest-maybe-all rs)]
-    (when (and (not (empty? st)) rs)
+        [r rest-rs rs_] (h/first-rest-maybe-all rs)]
+    (when (and (not (empty? st)) rs_)
       [r
        (make-state zloc
                    (h/tuple-push ls z-node)
