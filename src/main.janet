@@ -1313,7 +1313,7 @@
   ``
   Return the attributes table for the node of a z-location.  The
   attributes table contains at least bounds of the node by 1-based line
-  and column numbers.
+  and column numbers along with 0-based positions.
   ``
   [zloc]
   (get (node zloc) 1))
@@ -1325,7 +1325,7 @@
       down
       attrs)
   # =>
-  @{:bc 1 :bl 1 :ec 8 :el 1}
+  @{:bl 1 :el 1 :bc 1 :ep 7 :bp 0 :ec 8}
 
   )
 
@@ -1344,24 +1344,24 @@
       zip-down
       node)
   # =>
-  [:tuple @{:bc 1 :bl 1 :ec 8 :el 1}
-   [:symbol @{:bc 2 :bl 1 :ec 3 :el 1} "+"]
-   [:whitespace @{:bc 3 :bl 1 :ec 4 :el 1} " "]
-   [:number @{:bc 4 :bl 1 :ec 5 :el 1} "1"]
-   [:whitespace @{:bc 5 :bl 1 :ec 6 :el 1} " "]
-   [:number @{:bc 6 :bl 1 :ec 7 :el 1} "3"]]
+  [:tuple @{:bl 1 :el 1 :bc 1 :ep 7 :bp 0 :ec 8}
+   [:symbol @{:bl 1 :el 1 :bc 2 :ep 2 :bp 1 :ec 3} "+"]
+   [:whitespace @{:bl 1 :el 1 :bc 3 :ep 3 :bp 2 :ec 4} " "]
+   [:number @{:bl 1 :el 1 :bc 4 :ep 4 :bp 3 :ec 5} "1"]
+   [:whitespace @{:bl 1 :el 1 :bc 5 :ep 5 :bp 4 :ec 6} " "]
+   [:number @{:bl 1 :el 1 :bc 6 :ep 6 :bp 5 :ec 7} "3"]]
 
   (-> (par "(/ 1 8)")
       zip-down
       root)
   # =>
-  @[:code @{:bc 1 :bl 1 :ec 8 :el 1}
-    [:tuple @{:bc 1 :bl 1 :ec 8 :el 1}
-     [:symbol @{:bc 2 :bl 1 :ec 3 :el 1} "/"]
-     [:whitespace @{:bc 3 :bl 1 :ec 4 :el 1} " "]
-     [:number @{:bc 4 :bl 1 :ec 5 :el 1} "1"]
-     [:whitespace @{:bc 5 :bl 1 :ec 6 :el 1} " "]
-     [:number @{:bc 6 :bl 1 :ec 7 :el 1} "8"]]]
+  @[:code @{:bl 1 :el 1 :bc 1 :ep 7 :bp 0 :ec 8}
+    [:tuple @{:bl 1 :el 1 :bc 1 :ep 7 :bp 0 :ec 8}
+     [:symbol @{:bl 1 :el 1 :bc 2 :ep 2 :bp 1 :ec 3} "/"]
+     [:whitespace @{:bl 1 :el 1 :bc 3 :ep 3 :bp 2 :ec 4} " "]
+     [:number @{:bl 1 :el 1 :bc 4 :ep 4 :bp 3 :ec 5} "1"]
+     [:whitespace @{:bl 1 :el 1 :bc 5 :ep 5 :bp 4 :ec 6} " "]
+     [:number @{:bl 1 :el 1 :bc 6 :ep 6 :bp 5 :ec 7} "8"]]]
 
   )
 
@@ -1395,7 +1395,7 @@
       right-skip-wsc
       node)
   # =>
-  [:symbol @{:bc 1 :bl 2 :ec 2 :el 2} "+"]
+  [:symbol @{:bl 2 :el 2 :bc 1 :ep 13 :bp 12 :ec 2} "+"]
 
   (-> (par "(:a)")
       zip-down
@@ -1437,7 +1437,7 @@
       left-skip-wsc
       node)
   # =>
-  [:symbol @{:bc 1 :bl 2 :ec 2 :el 2} "+"]
+  [:symbol @{:bl 2 :el 2 :bc 1 :ep 13 :bp 12 :ec 2} "+"]
 
   (-> (par "(:a)")
       zip-down
@@ -1475,7 +1475,7 @@
       right-skip-ws
       node)
   # =>
-  [:comment @{:bc 3 :bl 1 :ec 13 :el 1} "# hi there"]
+  [:comment @{:bl 1 :el 1 :bc 3 :ep 12 :bp 2 :ec 13} "# hi there"]
 
   (-> (par "(:a)")
       zip-down
@@ -1514,7 +1514,7 @@
       left-skip-ws
       node)
   # =>
-  [:comment @{:bc 2 :bl 1 :ec 12 :el 1} "# hi there"]
+  [:comment @{:bl 1 :el 1 :bc 2 :ep 11 :bp 1 :ec 12} "# hi there"]
 
   (-> (par "(:a)")
       zip-down

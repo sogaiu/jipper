@@ -13,14 +13,14 @@
     (j/zip-down (j/par src)))
 
   (def cur-zloc
-    (j/search-from zloc 
+    (j/search-from zloc
                    |(match (j/node $) [:symbol _ name]
                       (when (= "a" name)
                         $))))
 
   (j/node cur-zloc)
   # =>
-  [:symbol @{:bc 23 :bl 1 :ec 24 :el 1} "a"]
+  [:symbol @{:bc 23 :bl 1 :bp 22 :ec 24 :el 1 :ep 23} "a"]
 
   # first edit
   (def edit-1-zloc
@@ -38,7 +38,7 @@
 
   (j/node cur-2-zloc)
   # =>
-  [:string @{:bc 10 :bl 5 :ec 14 :el 5} `"hi"`]
+  [:string @{:bc 10 :bl 5 :bp 57 :ec 14 :el 5 :ep 61} `"hi"`]
 
   # second edit
   (def edit-2-zloc

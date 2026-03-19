@@ -128,41 +128,53 @@
   # nodes of the symbol portion of the detected non-calls
   (map j/node non-calls)
   # =>
-  @[[:symbol @{:bc 2 :bl 1 :ec 5 :el 1} "def"]
-    [:symbol @{:bc 2 :bl 11 :ec 5 :el 11} "def"]
-    [:symbol @{:bc 2 :bl 13 :ec 5 :el 13} "var"]
-    [:symbol @{:bc 2 :bl 31 :ec 5 :el 31} "var"]]
+  @[[:symbol @{:bc 2 :bl 1 :bp 1 :ec 5 :el 1 :ep 4} "def"]
+    [:symbol @{:bc 2 :bl 11 :bp 80 :ec 5 :el 11 :ep 83} "def"]
+    [:symbol @{:bc 2 :bl 13 :bp 99 :ec 5 :el 13 :ep 102} "var"]
+    [:symbol @{:bc 2 :bl 31 :bp 324 :ec 5 :el 31 :ep 327} "var"]]
 
   # "def type"s and names of non-call things
   (reduce analyze-defish
           @[]
           non-calls)
   # =>
-  @[{:loc @{:bc 1 :bl 1 :ec 10 :el 1} :name "a" :type "def"}
-    {:loc @{:bc 1 :bl 11 :ec 18 :el 11} :name "x" :type "def"}
-    {:loc @{:bc 1 :bl 11 :ec 18 :el 11} :name "y" :type "def"}
-    {:loc @{:bc 1 :bl 13 :ec 30 :el 13} :name "i" :type "var"}
-    {:loc @{:bc 1 :bl 13 :ec 30 :el 13} :name "j" :type "var"}
-    {:loc @{:bc 1 :bl 31 :ec 20 :el 31} :name "b" :type "var"}]
+  @[{:loc @{:bc 1 :bl 1 :bp 0 :ec 10 :el 1 :ep 9}
+     :name "a"
+     :type "def"}
+    {:loc @{:bc 1 :bl 11 :bp 79 :ec 18 :el 11 :ep 96}
+     :name "x"
+     :type "def"}
+    {:loc @{:bc 1 :bl 11 :bp 79 :ec 18 :el 11 :ep 96}
+     :name "y"
+     :type "def"}
+    {:loc @{:bc 1 :bl 13 :bp 98 :ec 30 :el 13 :ep 127}
+     :name "i"
+     :type "var"}
+    {:loc @{:bc 1 :bl 13 :bp 98 :ec 30 :el 13 :ep 127}
+     :name "j"
+     :type "var"}
+    {:loc @{:bc 1 :bl 31 :bp 323 :ec 20 :el 31 :ep 342}
+     :name "b"
+     :type "var"}]
 
   (map j/node calls)
   # =>
-  @[[:symbol @{:bc 2 :bl 3 :ec 7 :el 3} "defn-"]
-    [:symbol @{:bc 2 :bl 25 :ec 11 :el 25} "defmacro-"]
-    [:symbol @{:bc 2 :bl 33 :ec 6 :el 33} "defn"]]
+  @[[:symbol @{:bc 2 :bl 3 :bp 12 :ec 7 :el 3 :ep 17} "defn-"]
+    [:symbol @{:bc 2 :bl 25 :bp 174 :ec 11 :el 25 :ep 183} "defmacro-"]
+    [:symbol @{:bc 2 :bl 33 :bp 345 :ec 6 :el 33 :ep 349} "defn"]]
 
   # "def type"s and names of call things
   (reduce analyze-defish
           @[]
           calls)
   # =>
-  @[{:loc @{:bc 1 :bl 3 :ec 9 :el 9}
+  @[{:loc @{:bc 1 :bl 3 :bp 11 :ec 9 :el 9 :ep 77}
      :name "f"
      :type "defn-"}
-    {:loc @{:bc 1 :bl 25 :ec 48 :el 29}
+    {:loc @{:bc 1 :bl 25 :bp 173 :ec 48 :el 29 :ep 321}
      :name "median-of-three"
      :type "defmacro-"}
-    {:loc @{:bc 1 :bl 33 :ec 9 :el 35}
+    {:loc @{:bc 1 :bl 33 :bp 344 :ec 9 :el 35 :ep 374}
      :name "main"
      :type "defn"}]
 

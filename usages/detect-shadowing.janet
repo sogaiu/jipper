@@ -35,30 +35,30 @@
                       j/zip-down
                       j/down))
   # =>
-  @[{:loc @{:bc 1 :bl 1 :ec 10 :el 1} 
-     :name "a" 
+  @[{:loc @{:bc 1 :bl 1 :bp 0 :ec 10 :el 1 :ep 9}
+     :name "a"
      :type "def"}]
 
   (analyze-defish (-> (j/par "(def [a b] [1 2])")
                       j/zip-down
                       j/down))
   # =>
-  @[{:loc @{:bc 1 :bl 1 :ec 18 :el 1} 
-     :name "a" 
-     :type "def"} 
-    {:loc @{:bc 1 :bl 1 :ec 18 :el 1} 
-     :name "b" 
+  @[{:loc @{:bc 1 :bl 1 :bp 0 :ec 18 :el 1 :ep 17}
+     :name "a"
+     :type "def"}
+    {:loc @{:bc 1 :bl 1 :bp 0 :ec 18 :el 1 :ep 17}
+     :name "b"
      :type "def"}]
 
   (analyze-defish (-> (j/par "(def {:x x :y y} {:x 1 :y 0})")
                       j/zip-down
                       j/down))
   # =>
-  @[{:loc @{:bc 1 :bl 1 :ec 30 :el 1} 
-     :name "x" 
-     :type "def"} 
-    {:loc @{:bc 1 :bl 1 :ec 30 :el 1} 
-     :name "y" 
+  @[{:loc @{:bc 1 :bl 1 :bp 0 :ec 30 :el 1 :ep 29}
+     :name "x"
+     :type "def"}
+    {:loc @{:bc 1 :bl 1 :bp 0 :ec 30 :el 1 :ep 29}
+     :name "y"
      :type "def"}]
 
   )
@@ -184,27 +184,51 @@
 
   things
   # =>
-  @{"a" {:loc @{:bc 1 :bl 1 :ec 10 :el 1} :name "a" :type "def"}
-    "b" {:loc @{:bc 3 :bl 27 :ec 12 :el 27} :name "b" :type "def"}
-    "c" {:loc @{:bc 3 :bl 28 :ec 13 :el 30} :name "c" :type "defn"}
-    "f" {:loc @{:bc 1 :bl 25 :ec 9 :el 31} :name "f" :type "defn-"}
-    "i" {:loc @{:bc 1 :bl 7 :ec 30 :el 7} :name "i" :type "var"}
-    "j" {:loc @{:bc 1 :bl 7 :ec 30 :el 7} :name "j" :type "var"}
-    "main" {:loc @{:bc 1 :bl 33 :ec 9 :el 35}
+  @{"a" {:loc @{:bc 1 :bl 1 :bp 0 :ec 10 :el 1 :ep 9}
+         :name "a"
+         :type "def"}
+    "b" {:loc @{:bc 3 :bl 27 :bp 293 :ec 12 :el 27 :ep 302}
+         :name "b"
+         :type "def"}
+    "c" {:loc @{:bc 3 :bl 28 :bp 305 :ec 13 :el 30 :ep 333}
+         :name "c"
+         :type "defn"}
+    "f" {:loc @{:bc 1 :bl 25 :bp 276 :ec 9 :el 31 :ep 342}
+         :name "f"
+         :type "defn-"}
+    "i" {:loc @{:bc 1 :bl 7 :bp 51 :ec 30 :el 7 :ep 80}
+         :name "i"
+         :type "var"}
+    "j" {:loc @{:bc 1 :bl 7 :bp 51 :ec 30 :el 7 :ep 80}
+         :name "j"
+         :type "var"}
+    "main" {:loc @{:bc 1 :bl 33 :bp 344 :ec 9 :el 35 :ep 374}
             :name "main"
             :type "defn"}
-    "median-of-three" {:loc @{:bc 1 :bl 19 :ec 48 :el 23} 
-                       :name "median-of-three" 
+    "median-of-three" {:loc @{:bc 1 :bl 19 :bp 126 :ec 48 :el 23 :ep 274}
+                       :name "median-of-three"
                        :type "defmacro-"}
-    "x" {:loc @{:bc 1 :bl 5 :ec 18 :el 5} :name "x" :type "def"}
-    "y" {:loc @{:bc 1 :bl 5 :ec 18 :el 5} :name "y" :type "def"}}
+    "x" {:loc @{:bc 1 :bl 5 :bp 32 :ec 18 :el 5 :ep 49}
+         :name "x"
+         :type "def"}
+    "y" {:loc @{:bc 1 :bl 5 :bp 32 :ec 18 :el 5 :ep 49}
+         :name "y"
+         :type "def"}}
 
   shadowing
   # =>
-  @[[{:loc @{:bc 3 :bl 27 :ec 12 :el 27} :name "b" :type "def"} 
-     {:loc @{:bc 1 :bl 3 :ec 20 :el 3} :name "b" :type "var"}] 
-    [{:loc @{:bc 3 :bl 28 :ec 13 :el 30} :name "c" :type "defn"} 
-     {:loc @{:bc 3 :bl 11 :ec 12 :el 11} :name "c" :type "def"}]]
+  @[[{:loc @{:bc 3 :bl 27 :bp 293 :ec 12 :el 27 :ep 302}
+      :name "b"
+      :type "def"}
+     {:loc @{:bc 1 :bl 3 :bp 11 :ec 20 :el 3 :ep 30}
+      :name "b"
+      :type "var"}]
+    [{:loc @{:bc 3 :bl 28 :bp 305 :ec 13 :el 30 :ep 333}
+      :name "c"
+      :type "defn"}
+     {:loc @{:bc 3 :bl 11 :bp 94 :ec 12 :el 11 :ep 103}
+      :name "c"
+      :type "def"}]]
 
   # show "def type"s and names of non-call things
   (reduce (fn [acc a-zloc]
@@ -213,14 +237,30 @@
           @[]
           non-calls)
   # =>
-  @[{:loc @{:bc 1 :bl 1 :ec 10 :el 1} :name "a" :type "def"}
-    {:loc @{:bc 1 :bl 3 :ec 20 :el 3} :name "b" :type "var"} 
-    {:loc @{:bc 1 :bl 5 :ec 18 :el 5} :name "x" :type "def"} 
-    {:loc @{:bc 1 :bl 5 :ec 18 :el 5} :name "y" :type "def"}
-    {:loc @{:bc 1 :bl 7 :ec 30 :el 7} :name "i" :type "var"}
-    {:loc @{:bc 1 :bl 7 :ec 30 :el 7} :name "j" :type "var"}
-    {:loc @{:bc 3 :bl 11 :ec 12 :el 11} :name "c" :type "def"}
-    {:loc @{:bc 3 :bl 27 :ec 12 :el 27} :name "b" :type "def"}]
+  @[{:loc @{:bc 1 :bl 1 :bp 0 :ec 10 :el 1 :ep 9}
+     :name "a"
+     :type "def"}
+    {:loc @{:bc 1 :bl 3 :bp 11 :ec 20 :el 3 :ep 30}
+     :name "b"
+     :type "var"}
+    {:loc @{:bc 1 :bl 5 :bp 32 :ec 18 :el 5 :ep 49}
+     :name "x"
+     :type "def"}
+    {:loc @{:bc 1 :bl 5 :bp 32 :ec 18 :el 5 :ep 49}
+     :name "y"
+     :type "def"}
+    {:loc @{:bc 1 :bl 7 :bp 51 :ec 30 :el 7 :ep 80}
+     :name "i"
+     :type "var"}
+    {:loc @{:bc 1 :bl 7 :bp 51 :ec 30 :el 7 :ep 80}
+     :name "j"
+     :type "var"}
+    {:loc @{:bc 3 :bl 11 :bp 94 :ec 12 :el 11 :ep 103}
+     :name "c"
+     :type "def"}
+    {:loc @{:bc 3 :bl 27 :bp 293 :ec 12 :el 27 :ep 302}
+     :name "b"
+     :type "def"}]
 
   )
 

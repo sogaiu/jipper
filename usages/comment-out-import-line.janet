@@ -14,7 +14,7 @@
 
   (def cur-zloc
     (j/search-from
-      zloc 
+      zloc
       (fn [a-zloc]
         (match (j/node a-zloc) [:tuple]
           (when-let [child-zloc (j/down a-zloc)]
@@ -30,14 +30,14 @@
 
   import-node
   # =>
-  [:tuple @{:bc 1 :bl 1 :ec 25 :el 1} 
-   [:symbol @{:bc 2 :bl 1 :ec 8 :el 1} "import"] 
-   [:whitespace @{:bc 8 :bl 1 :ec 9 :el 1} " "] 
-   [:symbol @{:bc 9 :bl 1 :ec 18 :el 1} "./analyze"] 
-   [:whitespace @{:bc 18 :bl 1 :ec 19 :el 1} " "] 
-   [:keyword @{:bc 19 :bl 1 :ec 22 :el 1} ":as"] 
-   [:whitespace @{:bc 22 :bl 1 :ec 23 :el 1} " "] 
-   [:symbol @{:bc 23 :bl 1 :ec 24 :el 1} "a"]]
+  [:tuple @{:bc 1 :bl 1 :bp 0 :ec 25 :el 1 :ep 24}
+   [:symbol @{:bc 2 :bl 1 :bp 1 :ec 8 :el 1 :ep 7} "import"]
+   [:whitespace @{:bc 8 :bl 1 :bp 7 :ec 9 :el 1 :ep 8} " "]
+   [:symbol @{:bc 9 :bl 1 :bp 8 :ec 18 :el 1 :ep 17} "./analyze"]
+   [:whitespace @{:bc 18 :bl 1 :bp 17 :ec 19 :el 1 :ep 18} " "]
+   [:keyword @{:bc 19 :bl 1 :bp 18 :ec 22 :el 1 :ep 21} ":as"]
+   [:whitespace @{:bc 22 :bl 1 :bp 21 :ec 23 :el 1 :ep 22} " "]
+   [:symbol @{:bc 23 :bl 1 :bp 22 :ec 24 :el 1 :ep 23} "a"]]
 
   (def import-as-str (j/gen import-node))
 
