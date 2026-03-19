@@ -641,7 +641,7 @@
   )
 
 
-(def version "2026-03-19_03-08-08")
+(def version "2026-03-19_04-53-23")
 
 # exports
 (def par l/par)
@@ -700,7 +700,7 @@
   (zipper indexed
           indexed?
           h/to-entries
-          (fn [p xs] xs)))
+          (fn [_p xs] xs)))
 
 (comment
 
@@ -1192,7 +1192,7 @@
   root z-location.
   ``
   [zloc]
-  (let [[z-node st] zloc
+  (let [[_z-node st] zloc
         {:ls ls
          :pnodes pnodes
          :pstate pstate
@@ -1813,7 +1813,7 @@
   # because the desired exiting condition for the while loop depends
   # on cur-zloc becoming end-zloc -- if `replace` were to be used
   # there, the termination condition never gets fulfilled properly.
-  (for i 0 (dec (length kids)) # left to right again
+  (repeat (dec (length kids)) # left to right again
     (set cur-zloc
          (-> (replace cur-zloc dummy-node)
              right)))
@@ -1824,7 +1824,7 @@
   #
   (def new-node
     (make-node start-zloc wrap-node (tuple ;kids)))
-  (for i 0 (dec (length kids)) # right to left
+  (repeat (dec (length kids)) # right to left
     (set cur-zloc
          (remove cur-zloc)))
   # 4. put the new container node into place
