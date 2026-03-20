@@ -9,8 +9,8 @@
    :paths [["sbb.janet" "bundle/"]]}
   {:name "janet-peg"
    :url "https://github.com/sogaiu/janet-peg"
-   :tag "fa1f5968138071cdc9d31e334c4d95f6cb09d868"
-   :paths [["lib/location.janet" "src/"]]}
+   :tag "401cae9f2afc7c8d1346369a89ccd98a01967a68"
+   :paths [["lib/locations.janet" "src/"]]}
   {:name "jell"
    :url "https://github.com/sogaiu/jell"
    :tag "718464b8b94971fd8f9e984ca81d35e2c859546e"

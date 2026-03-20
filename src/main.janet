@@ -1,5 +1,5 @@
 (import ./helpers :as h)
-(import ./location :as l)
+(import ./locations :as l)
 
 (def version "DEVEL")
 
